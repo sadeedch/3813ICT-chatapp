@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { JsonPipe } from '@angular/common';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
 

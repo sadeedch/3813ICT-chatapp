@@ -2,18 +2,19 @@ const fs = require("fs");
 
 module.exports = function(app){
     app.post("/api/login", function(req, res) {
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var data = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8"); //reading from the users list supplied in users_list.json
+        var data = JSON.parse(file_data);
         user = {};
       
         user.username = req.body.username_input;
+        
         user.valid = null;
       
-        console.log(data.users[0].username);
+        //console.log(data.users[0].username);
         for (i = 0; i < data.users.length; i++) {
           console.log(data.users[i].username);
           console.log(user.username)
-          if (user.username === data.users[i].username) {
+          if (user.username === data.users[i].username) {  // checking if the entered details are same as users files
             user.valid = true;
             user.role = data.users[i].role;
             user.groupAdminRole = data.users[i].groupAdminRole;
@@ -26,9 +27,9 @@ module.exports = function(app){
       });
       
       app.post("/api/adduser", function(req, res) {
-        var rawdata = fs.readFileSync("users.json", "utf8");
+        var file_data = fs.readFileSync("users_list.json", "utf8");
       
-        var thisdata = JSON.parse(rawdata);
+        var thisdata = JSON.parse(file_data);
         user = {};
 
         valid = true;
@@ -55,7 +56,7 @@ module.exports = function(app){
         thisdata.users.push(user);
         function saveFile(){
         var newdata = JSON.stringify(thisdata);
-        fs.writeFile("users.json", newdata, function(err) {
+        fs.writeFile("users_list.json", newdata, function(err) {
           if (err) {
             console.log(err);
           }
@@ -65,8 +66,8 @@ module.exports = function(app){
       });
 
       app.post("/api/addgroup", function(req,res) {
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var thisdata = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8");
+        var thisdata = JSON.parse(file_data);
 
         group = {}
         group.name = req.body.groupname;
@@ -76,7 +77,7 @@ module.exports = function(app){
         thisdata.groups.push(group);
         console.log(thisdata)
         var newdata = JSON.stringify(thisdata);
-        fs.writeFile("users.json", newdata, function(err) {
+        fs.writeFile("users_list.json", newdata, function(err) {
           if (err) {
             console.log(err);
           }
@@ -85,8 +86,8 @@ module.exports = function(app){
       });
 
       app.post("/api/addchannel", function(req, res) {
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var data = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8");
+        var data = JSON.parse(file_data);
 
         groupname = req.body.inputGroup;
         channelname = req.body.inputChannel;     
@@ -100,7 +101,7 @@ module.exports = function(app){
         }
         console.log(data.groups)
         var newdata = JSON.stringify(data);
-        fs.writeFile("users.json", newdata, function(err) {
+        fs.writeFile("users_list.json", newdata, function(err) {
           if (err) {
             console.log(err);
           }
@@ -109,8 +110,8 @@ module.exports = function(app){
       })
 
       app.get("/api/getgroups", function(req, res) {
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var thisdata = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8");
+        var thisdata = JSON.parse(file_data);
 
         data = thisdata.groups;
         console.log(data)
@@ -118,8 +119,8 @@ module.exports = function(app){
       });
 
       app.post("/api/getusergroups", function(req, res){
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var data = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8");
+        var data = JSON.parse(file_data);
 
         username = req.body.username;
 
@@ -134,15 +135,15 @@ module.exports = function(app){
       });
 
       app.get("/api/getalluserdata", function(req, res){
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var data = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8");
+        var data = JSON.parse(file_data);
 
         res.send(data.users)
       })
 
       app.get("/api/getusers", function(req, res) {
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var data = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8");
+        var data = JSON.parse(file_data);
         userdata = data.users
         userlist = [];
         for(i = 0; i < userdata.length; i++){
@@ -152,8 +153,8 @@ module.exports = function(app){
       })
 
       app.post("/api/addgrouptouser", function(req, res){
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var data = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8");
+        var data = JSON.parse(file_data);
 
         newgroup = {};
         newgroup.name = req.body.inviteGroupName;
@@ -168,7 +169,7 @@ module.exports = function(app){
           }
         }
         var newdata = JSON.stringify(data);
-      fs.writeFile("users.json", newdata, function(err) {
+      fs.writeFile("users_list.json", newdata, function(err) {
         if (err) {
           console.log(err);
         }
@@ -178,8 +179,8 @@ module.exports = function(app){
 
       
       app.post("/api/deleteuser", function(req, res){
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var data = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8");
+        var data = JSON.parse(file_data);
 
         user = req.body.deleteUserName;
 
@@ -189,7 +190,7 @@ module.exports = function(app){
           }
         }
         var newdata = JSON.stringify(data);
-        fs.writeFile("users.json", newdata, function(err) {
+        fs.writeFile("users_list.json", newdata, function(err) {
           if (err) {
             console.log(err);
           }
@@ -198,8 +199,8 @@ module.exports = function(app){
       });
 
       app.post("/api/removeuserfromchannel", function(req, res){
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var data = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8");
+        var data = JSON.parse(file_data);
 
         user = req.body.removeChannelUserName;
         group = req.body.removeChannelGroupName;
@@ -219,7 +220,7 @@ module.exports = function(app){
           }
         }
         var newdata = JSON.stringify(data);
-        fs.writeFile("users.json", newdata, function(err) {
+        fs.writeFile("users_list.json", newdata, function(err) {
           if (err) {
             console.log(err);
           }
@@ -228,8 +229,8 @@ module.exports = function(app){
       });
 
       app.post("/api/removeuserfromgroup", function(req, res){
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var data = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8");
+        var data = JSON.parse(file_data);
 
         user = req.body.deleteGroupFromUser;
         group = req.body.deleteGroupFromUserGroup;
@@ -244,7 +245,7 @@ module.exports = function(app){
           }
         };
         var newdata = JSON.stringify(data);
-        fs.writeFile("users.json", newdata, function(err) {
+        fs.writeFile("users_list.json", newdata, function(err) {
           if (err) {
             console.log(err);
           }
@@ -253,8 +254,8 @@ module.exports = function(app){
       })
 
       app.post("/api/deletechannel", function(req, res){
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var data = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8");
+        var data = JSON.parse(file_data);
 
         channel = req.body.deleteChannelName;
         group = req.body.deleteChannelGroupName;
@@ -288,7 +289,7 @@ module.exports = function(app){
         }
       }
         var newdata = JSON.stringify(data);
-        fs.writeFile("users.json", newdata, function(err) {
+        fs.writeFile("users_list.json", newdata, function(err) {
           if (err) {
             console.log(err);
           }
@@ -297,8 +298,8 @@ module.exports = function(app){
       })
 
       app.post("/api/deletegroup", function(req, res){
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var data = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8");
+        var data = JSON.parse(file_data);
 
         group = req.body.deleteGroupName;
 
@@ -319,7 +320,7 @@ module.exports = function(app){
           }
         }
         var newdata = JSON.stringify(data);
-        fs.writeFile("users.json", newdata, function(err) {
+        fs.writeFile("users_list.json", newdata, function(err) {
           if (err) {
             console.log(err);
           }
@@ -328,8 +329,8 @@ module.exports = function(app){
       })
 
       app.post("/api/addusertochannel", function(req, res) {
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var data = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8");
+        var data = JSON.parse(file_data);
 
         usergroups = [];
 
@@ -369,7 +370,7 @@ module.exports = function(app){
 
         function saveFile(){
         var newdata = JSON.stringify(data);
-        fs.writeFile("users.json", newdata, function(err) {
+        fs.writeFile("users_list.json", newdata, function(err) {
           if (err) {
             console.log(err);
           }
@@ -379,8 +380,8 @@ module.exports = function(app){
       })
 
       app.get("/api/getgroupassis", function(req, res) {
-        var rawdata = fs.readFileSync("users.json", "utf8");
-        var data = JSON.parse(rawdata);
+        var file_data = fs.readFileSync("users_list.json", "utf8");
+        var data = JSON.parse(file_data);
 
         groupassis = {};
         groups = [];

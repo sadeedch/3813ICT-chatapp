@@ -11,16 +11,14 @@ import { Router } from '@angular/router';
 
 
 export class LoginComponent implements OnInit {
-
   username_input: any;
   error: any;
-
 
   constructor(private loginService:LoginService, private router:Router) { }
 
   ngOnInit() {
   }
-
+    //login click method when the login details are entered
   login_click(){
      this.loginService.login(this.username_input).subscribe(data => {
        if(data.valid === true){

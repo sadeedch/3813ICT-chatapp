@@ -1,38 +1,20 @@
-<div class="container homecontainer">
-        <p class="title">Welcome {{username}}</p>
-        <p>Your role: {{role}}</p>
+<div class="homecontainer">
+    <h3>Welcome {{username}}</h3>
+    <h3>Your role: {{role}} </h3>
         
-        <h2>Group:</h2>
-        <div class="tabs">
-            <ul>
-                <li *ngFor="let group of groups" [value]="group.name" (click)="selectGroup(group.name)"><a>{{group.name}}</a></li>
-            </ul>
-        </div>
-        <div *ngIf="selectedGroup">
+    <h2>Group:</h2>
+        <li *ngFor="let group of groups" [value]="group.name" (click)="selectGroup(group.name)"><a>{{group.name}}</a></li>
+
+    <div *ngIf="selectedGroup">
         <h2>Channels:</h2>
-        <div class="tabs">
-            <ul>
-                <li *ngFor="let channel of selectedGroupChannels" [value]="channel" (click)="chosenChannel(channel)"><a>{{channel}}</a></li>
-            </ul>
-        </div>
-        </div>
+        <li *ngFor="let channel of selectedGroupChannels" [value]="channel" (click)="chosenChannel(channel)"><a>{{channel}}</a></li>
+    </div>
+
+    <div *ngIf="manageLoggedIn" class="managebutton">
+        <a class="manage" routerLink="/manage">Manage</a><br><br>
+    </div>
         
-        <div class="chat" *ngIf="selectedChannel">
-            <div class = "messages">
-                <p>First Message: Hi</p>
-                <p>Second Message: Hey there</p>
-            </div>
-            <div class="newmessage">
-                <textarea class="textarea" placeholder="New Message" rows="5"></textarea>
-                <a class="button is-info sendbutton">Send Message</a><br><br><br>
-            </div>
-        </div>
-        
-        <div *ngIf="manageLoggedIn" class="managebutton">
-            <a class="manage" routerLink="/manage">Manage</a><br><br>
-        </div>
-        
-        <div class="homelogout">
-                <button class="button logout" (click)="logout()">Logout</button>
-        </div>
-        </div>
+    <div class="homelogout">
+        <button class="button logout" (click)="logout()">Logout</button>
+    </div>
+</div>
