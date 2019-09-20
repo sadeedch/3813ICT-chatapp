@@ -1,1 +1,193 @@
-<p>manage works!</p>
+
+<div class="container is-fluid managecontainer">
+        <div class="superadmin" *ngIf="superLoggedIn">
+        <h3 class="title">Super Admin Commands:</h3>
+        <h3>Add User:</h3>
+        <form>
+            <label>Username:</label>
+            <input class="input" type="text" name="inputUsername" [(ngModel)]="inputUsername">
+            <label>Email:</label>
+            <input class="input" type="text" name="inputEmail" [(ngModel)]="inputEmail"><br><br>
+            <label>Role:</label>
+            <div class="select">
+            <select name="inputRole" [(ngModel)]="inputRole" placeholder="role">
+                <option value="super">Super</option>
+                <option value="groupadmin">Group Admin</option>
+                <option value="user">User</option>
+            </select>
+            </div><br>
+            <button class="button is-success" type="submit" (click)="addUser()">Add User</button>
+        </form><br><br>
+        <h3>Delete User:</h3>
+        <form>
+                <label>Username:</label>
+                <div class="select">
+                <select type="text" name="deleteUserName" [(ngModel)]="deleteUserName">
+                    <option *ngFor="let user of userdata" [value]="user.username">{{user.username}}</option>
+                </select>
+                </div><br>
+                <button class="button is-success" type="submit" (click)="deleteUser()">Delete User</button>
+            </form>
+        </div>
+        <div *ngIf="groupAdmin" class="groupadmin">
+            <h3 class="title">Group Admin Commands:</h3>
+            <h3><b>Add Group:</b></h3>
+            <form>
+                <label>Group Name:</label>
+                <input class="input" type="text" name="groupname" [(ngModel)]="groupname">
+                <button class="button is-success" type="submit" (click)="addGroup()">Add Group</button>
+            </form><br>
+            <h3><b>Add Channel to Group:</b></h3>
+            <form>
+                <label>Group: </label>
+                <div class="select">
+                <select name="inputGroup" [(ngModel)]="inputGroup">
+                    <option *ngFor="let group of groups" [value]="group.name">{{group.name}}</option>
+                </select>
+                </div><br>
+                <label>Channel Name:</label>
+                <input class="input" name="inputChannel" [(ngModel)]="inputChannel">
+                <button class="button is-success" type="submit" (click)="addChannel()">Add Channel</button>
+            </form><br>
+            <h3><b>Invite User to Group:</b></h3>
+            <form>
+                <label>Group:</label>
+                <div class="select">
+                <select name="inviteGroupName" [(ngModel)]="inviteGroupName" (ngModelChange)="channelOptions()">
+                    <option *ngFor="let group of groups" [value]="group.name">{{group.name}}</option>
+                </select>
+                </div>
+                <label>Username:</label>
+                <div class="select">
+                <select name="inviteGroupUsername" [(ngModel)]="inviteGroupUsername">
+                    <option *ngFor="let user of userdata" [value]="user.username">{{user.username}}</option>
+                </select>
+                </div><br>
+                <button class="button is-success" type="submit" (click)="inviteUserToGroup()">Invite User</button>
+            </form><br>
+            <h3><b>Invite User to Channel:</b></h3>
+            <form>
+                <label>Group:</label>
+                <div class="select">
+                <select name="inviteGroup" [(ngModel)]="inviteGroup" (ngModelChange)="channelOptions()">
+                    <option *ngFor="let group of groups" [value]="group.name">{{group.name}}</option>
+                </select>
+                </div>
+                <label *ngIf="inviteGroup">Channel:</label>
+                <div class="select" *ngIf="inviteGroup">
+                <select name="inviteChannel"  [(ngModel)]="inviteChannel">
+                    <option *ngFor="let channel of selectedGroupChannels" [value]="channel">{{channel}}</option>
+                </select>
+                </div>
+                <label>Username:</label>
+                <div class="select">
+                <select name="inviteUsername" [(ngModel)]="inviteUsername">
+                    <option *ngFor="let user of userdata" [value]="user.username">{{user.username}}</option>
+                </select>
+                </div><br>
+                <button class="button is-success" type="submit" (click)="inviteUser()">Invite User</button>
+            </form><br>
+            <h3><b>Remove User from Group:</b></h3>
+            <form>
+                <label>Username:</label>
+                <div class="select">
+                <select name="deleteGroupFromUser" [(ngModel)]="deleteGroupFromUser" (ngModelChange)="deleteGroupOptions()">
+                    <option *ngFor="let user of userdata" [value]="user.username">{{user.username}}</option>
+                </select>
+                </div>
+                <label *ngIf="deleteGroupFromUser">Group:</label>
+                <div class="select" *ngIf="deleteGroupFromUser">
+                <select name="deleteGroupFromUserGroup" [(ngModel)]="deleteGroupFromUserGroup">
+                    <option *ngFor="let group of deleteGroupFromUserPossibilities" [value]="group.name">{{group.name}}</option>
+                </select>
+                </div><br>
+                <button class="button is-danger" type="submit" (click)="deleteGroupFromUserFunction()">Delete Channel from User</button>
+            </form><br>
+            <h3><b>Remove User from Channel:</b></h3>
+            <form>
+                <label>Username:</label>
+                <div class="select">
+                <select name="removeChannelUserName" [(ngModel)]="removeChannelUserName" (ngModelChange)="groupOptions()">
+                    <option *ngFor="let user of userdata" [value]="user.username">{{user.username}}</option>
+                </select>
+                </div>
+                <label *ngIf="removeChannelUserName">Group:</label>
+                <div class="select" *ngIf="removeChannelUserName">
+                <select name="removeChannelGroupName" [(ngModel)]="removeChannelGroupName" (ngModelChange)="removeChannelOptions()">
+                    <option *ngFor="let group of removeGroupNamePossibilities" [value]="group.name">{{group.name}}</option>
+                </select>
+                </div>
+                <label *ngIf="removeChannelGroupName">Channel:</label>
+                <div class="select" *ngIf="removeChannelGroupName">
+                <select name="removeChannelfromUser" [(ngModel)]="removeChannelfromUser">
+                        <option *ngFor="let channel of removeChannelNamePossibilities" [value]="channel">{{channel}}</option>
+                </select>
+                </div><br>
+                <button class="button is-danger" type="submit" (click)="deleteChannelfromUser()">Delete Channel from User</button>
+            </form><br>
+            <h3><b>Remove Group:</b></h3>
+            <form>
+                <label>Group:</label>
+                <div class="select">
+                <select name="deleteGroupName" [(ngModel)]="deleteGroupName">
+                    <option *ngFor="let group of groups" [value]="group.name">{{group.name}}</option>
+                </select>
+                </div><br>
+                <button class="button is-danger" type="submit" (click)="deleteGroup()">Delete Group</button>
+            </form><br>
+            <h3><b>Remove Channel:</b></h3>
+            <form>
+                <label>Group:</label>
+                <div class="select">
+                <select name="deleteChannelGroupName" [(ngModel)]="deleteChannelGroupName" (ngModelChange)="deleteChannelOptions()">
+                    <option *ngFor="let group of groups" [value]="group.name">{{group.name}}</option>
+                </select>
+                </div>
+                <div class="select" *ngIf="deleteChannelGroupName">
+                <select name="deleteChannelName" [(ngModel)]="deleteChannelName">
+                        <option *ngFor="let channel of deleteSelectedGroupChannels" [value]="channel">{{channel}}</option>
+                </select>
+                </div><br>
+                <button class="button is-danger" type="submit" (click)="deleteChannel()">Delete Channel</button>
+            </form>
+            <p>{{inviteError}}</p>
+            </div>
+            <div class="groupAssis" *ngIf="isAssisUser">
+                <h3 class="title">Group Assis:</h3>
+            </div>
+            
+            <div class="userinfo">
+                <h3 class="title">Users:</h3>
+                <table class="table is-bordered">
+                    <tr>
+                        <td>Username</td>
+                        <td>Groups/Channels</td>
+                    </tr>
+                    <tr *ngFor="let user of userdata">
+                        <td><b>{{user.username}}</b><br>
+                        Email: {{user.email}}<br>
+                        Role: {{user.role}}</td>
+                        <td><p *ngFor="let group of user.groups"><b>{{group.name}}</b><br>
+                            Channels: <br>{{group.channels}}</td>
+                    </tr>
+            </table>
+            </div>
+            <div class="groupinfo">
+                    <h3 class="title">Groups:</h3>
+                    <table class="table is-bordered">
+                        <tr>
+                            <td>Group</td>
+                            <td>Channels</td>
+                        </tr>
+                        <tr *ngFor="let group of groups">
+                            <td>{{group.name}}<br>
+                            <td><p *ngFor="let channel of group.channels">{{channel}}<br></td>
+                        </tr>
+                </table>
+                <div>
+                        <button class="button" (click)="goBack()">Home</button><br><br>
+                        <button class="button logout" (click)="logout()">Logout</button>
+                    </div>
+                </div>
+        
+        </div>

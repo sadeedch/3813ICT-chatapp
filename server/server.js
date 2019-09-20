@@ -10,10 +10,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const PORT = 3000;
-//require('./routes/api.js')(app);
+require('./routes/api.js')(app);
 
 
-app.use(express.static(path.join(__dirname, "../dist/Assignment")));
+//app.use(express.static(path.join(__dirname, "")));
 
 app.listen(3000, () => {
     console.log(`Server has started on: ${PORT}`);
