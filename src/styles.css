@@ -31,12 +31,6 @@ title{
   border-radius: 10px;
 }
 
-.homecontainer {
-  background-color: white;
-  border-radius: 15px;
-  text-align: center;
-}
-
 .managecontainer {
   background-color: white;
   border-radius: 15px;
@@ -81,31 +75,16 @@ button {
   cursor: pointer;
 }
 .logout {background-color: #f44336;}
+.remove{
+  background-color: Goldenrod;
+}
 
 .groupadmin button {
  justify-content: center;
  margin-top: 10px;
 }
 
-.superadmin button{
-  margin-top: 10px;
-}
 
-.messages {
-  height: 20vh;
-  text-align: left;
-}
-
-.newmessage {
-  padding: 15px;
-}
-
-
-
-.sendbutton {
-  float: left;
-  margin: 20px;
-}
 
 body {
   background-color: #008CBA;
@@ -127,4 +106,16 @@ h2 {
 }
 
 
+table, td, th {  
+  border: 2px solid #80ced6;
+  text-align: left;
+}
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 15px;
+}
