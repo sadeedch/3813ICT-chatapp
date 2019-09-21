@@ -38,16 +38,17 @@ module.exports = function(app){
         user.role = req.body.inputRole;
         user.email = req.body.inputEmail;
         user.groups = [];
-
+        
+        //checks if the users name already exists, if exits, it prints en error
         for(i=0; i < thisdata.users.length; i++){
           console.log(thisdata.users[i].username)
           if(user.username === thisdata.users[i].username){
-            console.log("already exists");
+            console.log("User with this username already exists");
             valid = false;
             break;
           }
         }
-
+        // if user name does not exits, it adds a new user
         if(valid === true) {
           thisdata.users.push(user);
           saveFile();
@@ -65,6 +66,7 @@ module.exports = function(app){
         res.send(valid);
       });
 
+        //adding a new group
       app.post("/api/addgroup", function(req,res) {
         var file_data = fs.readFileSync("users_list.json", "utf8");
         var thisdata = JSON.parse(file_data);
@@ -85,6 +87,8 @@ module.exports = function(app){
         res.send(newdata)
       });
 
+
+      //adding a new channel
       app.post("/api/addchannel", function(req, res) {
         var file_data = fs.readFileSync("users_list.json", "utf8");
         var data = JSON.parse(file_data);
@@ -109,6 +113,7 @@ module.exports = function(app){
         res.send(data)
       })
 
+      //getting the groups info
       app.get("/api/getgroups", function(req, res) {
         var file_data = fs.readFileSync("users_list.json", "utf8");
         var thisdata = JSON.parse(file_data);
@@ -118,6 +123,7 @@ module.exports = function(app){
         res.send(data);
       });
 
+      //getting the details of groups of a user
       app.post("/api/getusergroups", function(req, res){
         var file_data = fs.readFileSync("users_list.json", "utf8");
         var data = JSON.parse(file_data);
@@ -134,13 +140,17 @@ module.exports = function(app){
         res.send(userdata.groups)
       });
 
+      //getting all the data of users
+      /*
       app.get("/api/getalluserdata", function(req, res){
         var file_data = fs.readFileSync("users_list.json", "utf8");
         var data = JSON.parse(file_data);
 
         res.send(data.users)
       })
+      */
 
+      //getting userlist 
       app.get("/api/getusers", function(req, res) {
         var file_data = fs.readFileSync("users_list.json", "utf8");
         var data = JSON.parse(file_data);
@@ -152,6 +162,7 @@ module.exports = function(app){
         res.send(userlist)        
       })
 
+      //adding a group to users
       app.post("/api/addgrouptouser", function(req, res){
         var file_data = fs.readFileSync("users_list.json", "utf8");
         var data = JSON.parse(file_data);
@@ -177,7 +188,7 @@ module.exports = function(app){
       res.send(data)
       });
 
-      
+      // deleting a user and updaing the users_list
       app.post("/api/deleteuser", function(req, res){
         var file_data = fs.readFileSync("users_list.json", "utf8");
         var data = JSON.parse(file_data);
@@ -198,6 +209,7 @@ module.exports = function(app){
         res.send(true);
       });
 
+      //removing the users from a channel and updaing the users_list
       app.post("/api/removeuserfromchannel", function(req, res){
         var file_data = fs.readFileSync("users_list.json", "utf8");
         var data = JSON.parse(file_data);
@@ -228,6 +240,7 @@ module.exports = function(app){
         res.send(data)
       });
 
+      //removing the user from a group
       app.post("/api/removeuserfromgroup", function(req, res){
         var file_data = fs.readFileSync("users_list.json", "utf8");
         var data = JSON.parse(file_data);
@@ -253,6 +266,8 @@ module.exports = function(app){
         res.send(data);
       })
 
+
+      //deleting a channel
       app.post("/api/deletechannel", function(req, res){
         var file_data = fs.readFileSync("users_list.json", "utf8");
         var data = JSON.parse(file_data);
@@ -297,6 +312,8 @@ module.exports = function(app){
         res.send(data)
       })
 
+
+      //deleting a group
       app.post("/api/deletegroup", function(req, res){
         var file_data = fs.readFileSync("users_list.json", "utf8");
         var data = JSON.parse(file_data);
@@ -328,6 +345,8 @@ module.exports = function(app){
         res.send(true)
       })
 
+
+      //adding a user to a channel
       app.post("/api/addusertochannel", function(req, res) {
         var file_data = fs.readFileSync("users_list.json", "utf8");
         var data = JSON.parse(file_data);

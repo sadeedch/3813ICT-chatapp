@@ -1,6 +1,5 @@
 import { Component, OnInit, ɵCompiler_compileModuleSync__POST_R3__ } from '@angular/core';
 import { LoginService } from '../login.service';
-import { TypeCheckCompiler } from '@angular/compiler/src/view_compiler/type_check_compiler';
 import { Router } from '@angular/router';
 
 @Component({
@@ -54,10 +53,7 @@ export class ManageComponent implements OnInit {
     localStorage.setItem('username', '');
     this.router.navigateByUrl("/");
   }
-
-  goBack(){
-    this.router.navigateByUrl("/home");
-  }
+ 
 
   checkRole(){
     if(this.role === "super"){

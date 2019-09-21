@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private loginService:LoginService, private router:Router) { }
 
-  manageLoggedIn: boolean;
+  manageLoggedIn: boolean; 
   username = JSON.parse(localStorage.getItem('username'))
   role = JSON.parse(localStorage.getItem('role'));
   groups: any;
@@ -19,12 +19,15 @@ export class HomeComponent implements OnInit {
   selectedGroupChannels: [];
   selectedChannel: String;
 
+
+  //checking if the user is logged in as super or groupadmin. 
   checkRole(){
     if(this.role === "super" || this.role === "groupadmin"){
       this.manageLoggedIn = true;
     }
   }
 
+    //getting the user info
   getUserInfo(){
     this.loginService.getusergroups(this.username).subscribe(data => {
       this.groups = data;
@@ -41,7 +44,7 @@ export class HomeComponent implements OnInit {
     console.log(this.selectedGroup)
     this.selectChannels();
   }
-
+  
   selectChannels(){
     for(var i = 0; i < this.groups.length; i++){
       if(this.selectedGroup === this.groups[i].name){
@@ -50,6 +53,7 @@ export class HomeComponent implements OnInit {
     }
     console.log(this.selectedGroupChannels)
   }
+  
 
   chosenChannel(channel){
     this.selectedChannel = channel
