@@ -1,19 +1,18 @@
 # Chat Application
 
 
-
-## Documentation
-## Sadeed Ahmad 
-## Software Frameworks
-
-
 ## 1.	Main Functions:
 
 :small_blue_diamond: Built in AngularJS allowing the users to register and login by interacting with the MongoDB database. 
+
 :small_blue_diamond: Particular privileges assigned to users depending on their role. 
+
 :small_blue_diamond: Users are able to join different chat rooms and communicate with other users.
+
 :small_blue_diamond: Technical aspects of this project involves using  AngularJS, MongoDB, REST APIs and socket.io to help enable real time communication.
+
 :small_blue_diamond: Version control using Git. 
+
 
 
 
